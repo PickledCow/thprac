@@ -249,6 +249,10 @@ namespace Gui {
         {
             return mValue;
         }
+        inline int32_t GetAddr()
+        {
+            return (int32_t)&mValue;
+        }
 
         inline void RoundDown(T x)
         {
@@ -293,6 +297,23 @@ namespace Gui {
             return hasChanged;
         }
     };
+
+    /*
+    template <typename T, ImGuiDataType type>
+    class GuiSliderResetButton {
+    private:
+        GuiSlider<T, type> mSlider;
+        GuiButton mButton;
+
+    public:
+        GuiSliderResetButton(const char* label, const T&& minimum, const T&& maximum,
+            T step_min = 1, T step_max = 1, T step_x = 10) {
+            mSlider = GuiSlider<T, type> { label, minimum, maximum };
+            std::string button_name = label + "_reset_button";
+            mButton = GuiButton(button_name.c_str(), )
+        }
+    };
+    */
 
     template <typename T, ImGuiDataType type>
     class GuiDrag {

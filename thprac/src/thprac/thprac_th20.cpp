@@ -26,6 +26,8 @@ namespace TH20 {
         int32_t cycle;
         int32_t power;
         int32_t value;
+        int32_t positionX;
+        int32_t positionY;
 
         float hyper;
         float stone;
@@ -70,6 +72,8 @@ namespace TH20 {
             GetJsonValue(cycle);
             GetJsonValue(power);
             GetJsonValue(value);
+            GetJsonValue(positionX);
+            GetJsonValue(positionY);
 
             GetJsonValue(hyper);
             GetJsonValue(stone);
@@ -125,6 +129,8 @@ namespace TH20 {
                 AddJsonValue(cycle);
                 AddJsonValue(power);
                 AddJsonValue(value);
+                AddJsonValue(positionX);
+                AddJsonValue(positionY);
 
                 AddJsonValue(hyper);
                 AddJsonValue(stone);
@@ -159,6 +165,8 @@ namespace TH20 {
             *mBomb = 7;
             *mPower = 400;
             *mValue = 0;
+            *mPositionX = 0;
+            *mPositionY = 400;
             *mLevelR = 0;
             *mLevelB = 0;
             *mLevelY = 0;
@@ -208,6 +216,8 @@ namespace TH20 {
                 thPracParam.cycle = *mCycle;
                 thPracParam.power = *mPower;
                 thPracParam.value = *mValue;
+                thPracParam.positionX = *mPositionX;
+                thPracParam.positionY = *mPositionY;
 
                 thPracParam.hyperActive = *mHyperActive;
                 thPracParam.stoneActive = *mStoneActive;
@@ -307,6 +317,8 @@ namespace TH20 {
                 mPower(power_str.c_str());
                 auto value_str = std::format("{:.2f}", (float)(*mValue) / 5000.0f);
                 mValue(value_str.c_str());
+                mPositionX();
+                mPositionY();
 
                 ImGui::Columns(2, 0, false);
                 if (mHyperActive() && *mHyperActive && *mHyper == 0) *mHyper = 10000;
@@ -459,6 +471,8 @@ namespace TH20 {
         Gui::GuiSlider<int, ImGuiDataType_S32> mBombFragment { TH_BOMB_FRAGMENT, 0, 2 };
         Gui::GuiSlider<int, ImGuiDataType_S32> mPower { TH_POWER, 100, 400 };
         Gui::GuiSlider<int, ImGuiDataType_S32> mValue { TH_VALUE, 0, 1000000 };
+        Gui::GuiSlider<int, ImGuiDataType_S32> mPositionX { TH_POSITION_X, -184, 184 };
+        Gui::GuiSlider<int, ImGuiDataType_S32> mPositionY { TH_POSITION_Y, 32, 432 };
 
         Gui::GuiCheckBox mHyperActive { TH20_HYPER_ACTIVE };
         Gui::GuiCheckBox mStoneActive { TH20_STONE_ACTIVE };
@@ -2256,6 +2270,8 @@ namespace TH20 {
             *(int32_t*)RVA(0x1BA568 + 0x158) = thPracParam.bomb_fragment;
             *(int32_t*)RVA(0x1BA568 + 0xB8) = thPracParam.power;
             *(int32_t*)RVA(0x1BA568 + 0xCC) = thPracParam.value;
+            *(int32_t*)(*(int32_t*)RVA(0x1BA56C) + 0x620) = thPracParam.positionX * 128;
+            *(int32_t*)(*(int32_t*)RVA(0x1BA56C) + 0x624) = thPracParam.positionY * 128;
 
             THSectionPatch();
         }

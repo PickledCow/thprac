@@ -7,7 +7,7 @@
 
 namespace THPrac {
 
-const char* th_glossary_str[3][1063]
+const char* th_glossary_str[3][1065]
 {
     {
         "",
@@ -1015,6 +1015,8 @@ const char* th_glossary_str[3][1063]
         "蓝点",
         "本关蓝点",
         "总计蓝点",
+        "Start X Pos (TL Needed)",
+        "Start Y Pos (TL Needed)",
         "火力",
         "进度",
         "发狂",
@@ -2065,6 +2067,8 @@ const char* th_glossary_str[3][1063]
         "Point",
         "Point (Stage)",
         "Point (Total)",
+        "Start X Pos (Default 0)  ",
+        "Start Y Pos (Default 400)",
         "Power",
         "Progress",
         "Rage",
@@ -3115,6 +3119,8 @@ const char* th_glossary_str[3][1063]
         "得点",
         "得点\n(ステージ)",
         "得点(合計)",
+        "Start X Pos (TL Needed)",
+        "Start Y Pos (TL Needed)",
         "霊力",
         "進行度",
         "発狂",

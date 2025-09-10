@@ -764,6 +764,8 @@
       "TH_POINT": [ "蓝点", "Point", "得点" ],
       "TH_POINT_TOTAL": [ "总计蓝点", "Point (Total)", "得点(合計)" ],
       "TH_POINT_STAGE": [ "本关蓝点", "Point (Stage)", "得点\n(ステージ)" ],
+      "TH_POSITION_X": [ "Start X Pos (TL Needed)", "Start X Pos (Default 0)  ", "Start X Pos (TL Needed)" ],
+      "TH_POSITION_Y": [ "Start Y Pos (TL Needed)", "Start Y Pos (Default 400)", "Start Y Pos (TL Needed)" ],
       "TH_VALUE": [ "最大得点", "Value", "最大得点" ],
       "TH_FAITH": [ "信仰", "Faith", "信仰" ],
       "TH_BULLET_RANK": [ "Rank", "Rank", "ランク" ],

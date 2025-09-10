@@ -1015,6 +1015,8 @@ enum th_glossary_t
     TH_POINT,
     TH_POINT_STAGE,
     TH_POINT_TOTAL,
+    TH_POSITION_X,
+    TH_POSITION_Y,
     TH_POWER,
     TH_PROGRESS,
     TH_RAGE,
@@ -1060,7 +1062,7 @@ enum th_glossary_t
     TH_WARP,
 };
 
-extern const char* th_glossary_str[3][1063];
+extern const char* th_glossary_str[3][1065];
 
 extern const th_glossary_t TH_TYPE_SELECT[13];
 
