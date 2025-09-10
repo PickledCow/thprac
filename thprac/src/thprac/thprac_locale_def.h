@@ -1060,7 +1060,7 @@ enum th_glossary_t
     TH_WARP,
 };
 
-extern const char* th_glossary_str[3][1048];
+extern const char* th_glossary_str[3][1063];
 
 extern const th_glossary_t TH_TYPE_SELECT[13];
 

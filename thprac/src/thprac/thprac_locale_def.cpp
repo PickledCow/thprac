@@ -7,7 +7,7 @@
 
 namespace THPrac {
 
-const char* th_glossary_str[3][1048]
+const char* th_glossary_str[3][1063]
 {
     {
         "",
