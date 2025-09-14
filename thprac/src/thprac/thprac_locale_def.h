@@ -1062,7 +1062,7 @@ enum th_glossary_t
     TH_WARP,
 };
 
-extern const char* th_glossary_str[3][1065];
+extern const char* th_glossary_str[3][1050];
 
 extern const th_glossary_t TH_TYPE_SELECT[13];
 
@@ -2688,10 +2688,10 @@ extern const th_glossary_t TH20_CYCLE_LIST[4];
 
 }
 
-extern const wchar_t __thprac_loc_range_zh[2765];
+extern const wchar_t __thprac_loc_range_zh[3289];
 
-extern const wchar_t __thprac_loc_range_en[31];
+extern const wchar_t __thprac_loc_range_en[35];
 
-extern const wchar_t __thprac_loc_range_ja[2239];
+extern const wchar_t __thprac_loc_range_ja[2775];
 
 }

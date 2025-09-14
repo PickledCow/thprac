@@ -49,9 +49,12 @@ namespace TH10 {
         int32_t faith_bar;
         int32_t st6_boss9_spd;
         int64_t score;
+        int64_t positionXOffset;
+        int64_t positionYOffset;
 
         bool dlg;
         bool real_bullet_sprite;
+
 
         bool _playLock = false;
         void Reset()
@@ -74,6 +77,8 @@ namespace TH10 {
             GetJsonValue(faith);
             GetJsonValue(faith_bar);
             GetJsonValue(score);
+            GetJsonValue(positionXOffset);
+            GetJsonValue(positionYOffset);
             GetJsonValue(real_bullet_sprite);
             GetJsonValue(st6_boss9_spd)
             else
@@ -102,6 +107,8 @@ namespace TH10 {
             AddJsonValue(faith_bar);
             AddJsonValue(st6_boss9_spd);
             AddJsonValue(score);
+            AddJsonValue(positionXOffset);
+            AddJsonValue(positionYOffset);
             AddJsonValue(real_bullet_sprite);
 
             ReturnJson();
@@ -118,6 +125,8 @@ namespace TH10 {
             *mFaith = 50000;
             *mFaithBar = 130;
             *mSt6Boss9Spd = 160;
+            *mPositionXOffset = 0;
+            *mPositionYOffset = 0;
 
             SetFade(0.8f, 0.1f);
             SetStyle(ImGuiStyleVar_WindowRounding, 0.0f);
@@ -180,6 +189,9 @@ namespace TH10 {
                 thPracParam.faith_bar = *mFaithBar;
                 thPracParam.st6_boss9_spd = *mSt6Boss9Spd;
                 thPracParam.score = *mScore;
+                thPracParam.positionXOffset = *mPositionXOffset;
+                thPracParam.positionYOffset = *mPositionYOffset;
+
 
                 if (thPracParam.section == TH10_ST6_BOSS4 || thPracParam.section == TH10_ST6_BOSS8)
                     thPracParam.real_bullet_sprite = *mRealBulletSprite;
@@ -257,8 +269,16 @@ namespace TH10 {
                 mFaith();
                 mFaith.RoundDown(10);
                 mFaithBar();
+
+                // Advanced Settings
+                ImGui::Separator();
+
                 mScore();
                 mScore.RoundDown(10);
+                ImGui::Columns(2);
+                mPositionXOffset();
+                mPositionYOffset();
+                ImGui::Columns(1);
             }
             mNavFocus();
         }
@@ -360,6 +380,9 @@ namespace TH10 {
         Gui::GuiSlider<int, ImGuiDataType_S32> mFaithBar { TH10_FAITH_BAR, 0, 130, 1, 10 };
         Gui::GuiSlider<int, ImGuiDataType_S32> mSt6Boss9Spd { TH_DELAY, 0, 160, 1, 10 };
         Gui::GuiCheckBox mRealBulletSprite { TH_REAL_BULLET_SIZE };
+
+        Gui::GuiSlider<int, ImGuiDataType_S32> mPositionXOffset { TH_POSITION_X, -184, 184 };
+        Gui::GuiSlider<int, ImGuiDataType_S32> mPositionYOffset { TH_POSITION_Y, 32 - 400, 432 - 400 };
 
         Gui::GuiNavFocus mNavFocus { TH_STAGE, TH_MODE, TH_WARP, TH_DELAY, TH_REAL_BULLET_SIZE,
             TH_MID_STAGE, TH_END_STAGE, TH_NONSPELL, TH_SPELL, TH_PHASE, TH_CHAPTER,
@@ -2274,10 +2297,23 @@ namespace TH10 {
                     *(int8_t*)(0x474c9c) = 1;
             }
 
+            bool spawn_offset_changed = thPracParam.positionXOffset || thPracParam.positionYOffset;
+            
+            if (spawn_offset_changed) {
+                *(float*)(*(int32_t*)(0x477834) + 0x3C0) = static_cast<float>(thPracParam.positionXOffset);
+                *(float*)(*(int32_t*)(0x477834) + 0x3C4) = static_cast<float>(thPracParam.positionYOffset + 400);
+                *(int32_t*)(*(int32_t*)(0x477834) + 0x3CC) = thPracParam.positionXOffset * 100;
+                *(int32_t*)(*(int32_t*)(0x477834) + 0x3D0) = (thPracParam.positionYOffset + 400) * 100;
+            }
+            
+
             THSectionPatch();
         }
         thPracParam._playLock = true;
+
     })
+
+
     EHOOK_DY(th10_rep_save, 0x42a1e8, 6, {
         char* repName = (char*)(pCtx->Esp + 0x20);
         if (thPracParam.mode)
