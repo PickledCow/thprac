@@ -181,6 +181,28 @@ void SetDpadHook(uintptr_t addr, size_t instr_len) {
     iat_hook_joyGetPosEx();
 }
 
+void CreateDataFolders(LPCSTR folderName)
+{
+
+    // Create directories if they don't exist already
+    std::string replayPath(folderName);
+    std::string screenshotPath(folderName);
+
+    replayPath += "\\replay";
+    screenshotPath += "\\snapshot";
+
+    int replayWlen = MultiByteToWideChar(CP_ACP, 0, replayPath.c_str(), -1, NULL, 0);
+    std::wstring wideReplayFolder(replayWlen, L'\0');
+    MultiByteToWideChar(CP_ACP, 0, replayPath.c_str(), -1, &wideReplayFolder[0], replayWlen);
+
+    int screenshotWlen = MultiByteToWideChar(CP_ACP, 0, screenshotPath.c_str(), -1, NULL, 0);
+    std::wstring wideScreenshotFolder(screenshotWlen, L'\0');
+    MultiByteToWideChar(CP_ACP, 0, screenshotPath.c_str(), -1, &wideScreenshotFolder[0], screenshotWlen);
+
+    CreateDirectoryW(wideReplayFolder.c_str(), NULL);
+    CreateDirectoryW(wideScreenshotFolder.c_str(), NULL);
+}
+
 void GameGuiInit(game_gui_impl impl, int device, int hwnd_addr,
     Gui::ingame_input_gen_t input_gen, int reg1, int reg2, int reg3,
     int wnd_size_flag, float x, float y)
@@ -206,6 +228,8 @@ void GameGuiInit(game_gui_impl impl, int device, int hwnd_addr,
     GuiLauncherLocaleInit();
     // Set Hotkeys
     GuiLauncherHotkeyInit();
+    // Set Game Settings
+    GuiLauncherGameSettingsInit();
 
     switch (impl) {
     case THPrac::IMPL_WIN32_DX8:

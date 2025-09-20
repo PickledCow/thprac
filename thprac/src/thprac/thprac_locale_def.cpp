@@ -7,7 +7,7 @@
 
 namespace THPrac {
 
-const char* th_glossary_str[3][1066]
+const char* th_glossary_str[3][1067]
 {
     {
         "",
@@ -158,8 +158,6 @@ const char* th_glossary_str[3][1066]
         "C (春之小径)",
         "Extra (夜樱怪道)",
         "TH12.8 妖精大战争　～ 东方三月精",
-        "防止灵梦A炸弹回放不同步",
-        "修复了博丽灵梦A式炸弹的效果范围可能会从一个关卡延续到下一个关卡的问题。如果从后续关卡开始回放，可能会导致不同步。如果未启用此选项，则使用该选项启用时记录的回放（在出现该问题的情况下）可能会出现不同步（除非回放从受影响的关卡过渡之后开始）。",
         "TH12 东方星莲船　～ Undefined Fantastic Object.",
         "碎片方向",
         "飞碟1",
@@ -735,6 +733,8 @@ const char* th_glossary_str[3][1066]
         "选择游戏：",
         "小数点作（其他）",
         "小数点作（STG）",
+        "Store saves with game files (TL Needed)",
+        "Stores save files and replays alongside the game files instead. (TL Needed)",
         "使用VsyncPatch (如果可用）",
         "thprac - 游戏调整",
         "前往Steam页面",
@@ -749,7 +749,6 @@ const char* th_glossary_str[3][1066]
         "花映冢、兽王园、弹幕狂们的黑市",
         "警告：所选按键已被其他快捷键使用或需要。",
         "允许的按键: *Ctrl, Alt, *Shift, Caps Lock, Tab, 空格, **Backspace, F11, F12, Ins, Del, Home, End, PgUp, PgDn。",
-        "在虹龙洞中，退格键仅在快速菜单中可以正常使用。",
         "未分配",
         "无视##global_data",
         "无视##local_data",
@@ -901,6 +900,8 @@ const char* th_glossary_str[3][1066]
         "不作确认并自动更新thprac",
         "(上个选项被设置成\"从不\"时无效)",
         "使用\".thprac_data_backup\"",
+        "Store saves with game files (TL Needed)",
+        "Stores save files and replays alongside the game files instead. (TL Needed)",
         "使用相对路径",
         "是",
         "隐藏许可信息",
@@ -1226,8 +1227,6 @@ const char* th_glossary_str[3][1066]
         "C (Spring Path)",
         "Extra \n(Mysterious Night Cherry Blossom Path)",
         "TH12.8 Great Fairy Wars",
-        "Prevent ReimuA bomb desync",
-        "Fixes bug where the area of effect of ReimuA's bomb can persist from one stage to the next, causing a desync if replay started from latter stage. If this option is not enabled, replays that were recorded with it enabled in which the bug occurred may desync (unless replay started after the affected transition).",
         "TH12 Undefined Fantastic Object",
         "UFO Side",
         "Ventra 1",
@@ -1803,6 +1802,8 @@ const char* th_glossary_str[3][1066]
         "Select game:",
         "Spinoff (Others)",
         "Spinoff (Shmup)",
+        "Store saves with game files",
+        "Stores save files and replays alongside the game files instead.",
         "Use VsyncPatch (if avaliable)",
         "thprac - Game adjustments",
         "Go to Steam page",
@@ -1817,7 +1818,6 @@ const char* th_glossary_str[3][1066]
         "TH09 (PoFV), TH19 (UDoALG), TH185 (100BM)",
         "Warning: Chosen keys contains or are required for a different hotkey.",
         "Allowed Keys: *Ctrl, Alt, *Shift, Caps Lock, Tab, Space, **Backspace, F11, F12, Ins, Del, Home, End, PgUp, PgDn.",
-        "Backspace only works without issue in UM with the Quick Menu.",
         "Unassigned",
         "Ignore##global_data",
         "Ignore##local_data",
@@ -1969,6 +1969,8 @@ const char* th_glossary_str[3][1066]
         "Update thprac without confirmation",
         "(Does nothing if the previous option is set to \"Never\")",
         "Use \".thprac_data_backup\"",
+        "Store saves with game files",
+        "Stores save files and replays alongside the game files instead.",
         "Use relative path",
         "Yes",
         "Hide license info",
@@ -2294,8 +2296,6 @@ const char* th_glossary_str[3][1066]
         "C (春の小径)",
         "Extra (夜桜怪道)",
         "TH12.8 妖精大戦争　～ 東方三月精",
-        "霊夢Aボムのデシンク防止",
-        "霊夢Aのボムの範囲効果が次のステージに引き継がれるバグを修正しました。このバグにより、リプレイを後半のステージから再生すると同期ずれが発生する場合がありました。このオプションを有効にしていない場合、以前にこのバグが発生した状態でオプションを有効にして録画されたリプレイは、（影響を受けたステージ遷移以降から再生しない限り）同期ずれが発生する可能性があります。",
         "TH12 東方星蓮船　～ Undefined Fantastic Object.",
         "ベントラー方向",
         "ベントラー1",
@@ -2871,6 +2871,8 @@ const char* th_glossary_str[3][1066]
         "ゲームを選択：",
         "小数点作（その他）",
         "小数点作（STG）",
+        "Store saves with game files (TL Needed)",
+        "Stores save files and replays alongside the game files instead. (TL Needed)",
         "VsyncPatch を使用する (利用可能な場合)",
         "thprac - ゲームの調整",
         "Steamページに移動",
@@ -2885,7 +2887,6 @@ const char* th_glossary_str[3][1066]
         "東方花映塚，東方獣王園，バレットフィリア達の闇市場",
         "警告: 選択したキーは、別のホットキーで使用されているか、必要とされています。",
         "許可されたキー: *Ctrl, Alt, *Shift, Caps Lock, Tab, スペース, Backspace, F11, F12, Ins, Del, Home, End, PgUp, PgDn。",
-        "東方虹龍洞では、クイックメニュー内でのみBackspaceキーが問題なく動作します。",
         "未割り当て",
         "無視する##global_data",
         "無視する##local_data",
@@ -3037,6 +3038,8 @@ const char* th_glossary_str[3][1066]
         "確認なしでthpracを更新する",
         "(前のオプションが「なし」に設定されている場合は効果がありません)",
         "「.thprac_data_backup」を使用",
+        "Store saves with game files (TL Needed)",
+        "Stores save files and replays alongside the game files instead. (TL Needed)",
         "相対パスを使う",
         "はい",
         "ライセンス情報を非表示",
@@ -21755,7 +21758,7 @@ const th_glossary_t TH20_CYCLE_LIST[4]
 
 }
 
-const wchar_t __thprac_loc_range_zh[3303] {
+const wchar_t __thprac_loc_range_zh[3301] {
     0x0020, 0x00FF,
     0x2014, 0x2014,
     0x201c, 0x201c,
@@ -23016,7 +23019,6 @@ const wchar_t __thprac_loc_range_zh[3303] {
     0x82e5, 0x82e5,
     0x82e6, 0x82e6,
     0x82f1, 0x82f1,
-    0x8303, 0x8303,
     0x8317, 0x8317,
     0x8327, 0x8327,
     0x8336, 0x8336,
@@ -23431,7 +23433,7 @@ const wchar_t __thprac_loc_range_en[35] {
     0
 };
 
-const wchar_t __thprac_loc_range_ja[2789] {
+const wchar_t __thprac_loc_range_ja[2783] {
     0x0020, 0x00FF,
     0x2026, 0x2026,
     0x2fc5, 0x2fc5,
@@ -23801,7 +23803,6 @@ const wchar_t __thprac_loc_range_ja[2789] {
     0x56de, 0x56de,
     0x56e0, 0x56e0,
     0x56e3, 0x56e3,
-    0x56f2, 0x56f2,
     0x56fa, 0x56fa,
     0x56fd, 0x56fd,
     0x570b, 0x570b,
@@ -24410,7 +24411,6 @@ const wchar_t __thprac_loc_range_ja[2789] {
     0x7ba1, 0x7ba1,
     0x7bb1, 0x7bb1,
     0x7bc0, 0x7bc0,
-    0x7bc4, 0x7bc4,
     0x7c60, 0x7c60,
     0x7c89, 0x7c89,
     0x7c8b, 0x7c8b,
@@ -24671,7 +24671,6 @@ const wchar_t __thprac_loc_range_ja[2789] {
     0x9054, 0x9054,
     0x9060, 0x9060,
     0x9069, 0x9069,
-    0x9077, 0x9077,
     0x9078, 0x9078,
     0x907a, 0x907a,
     0x907f, 0x907f,

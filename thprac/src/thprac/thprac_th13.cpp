@@ -10,8 +10,6 @@ namespace TH13 {
         PLAYER_PTR = 0x4c22c4,
         STAGE_NUM = 0x4be81c,
         REPLAY_MGR_PTR = 0x4c22c8,
-        CHARA = 0x4be7b8,
-        MODEFLAGS = 0x4be830,
     };
 
     struct THPracParam {
@@ -30,8 +28,6 @@ namespace TH13 {
         int32_t graze;
         int32_t trance_meter;
         bool spirit_start_left;
-
-        uint32_t lastSrcIdx[5]; //marisa desync fix related
 
         bool dlg;
 
@@ -61,50 +57,37 @@ namespace TH13 {
             GetJsonValue(graze);
             GetJsonValue(trance_meter);
             GetJsonValueEx(spirit_start_left, Bool);
-            GetJsonArray(lastSrcIdx, elementsof(lastSrcIdx));
 
             return true;
         }
         std::string GetJson()
         {
-            if (mode == 0) {
-                CreateJson();
+            CreateJson();
 
-                AddJsonValueEx(version, GetVersionStr(), jalloc);
-                AddJsonValueEx(game, "th13", jalloc);
-                AddJsonValue(mode);
-                AddJsonArray(lastSrcIdx, elementsof(lastSrcIdx));
+            AddJsonValueEx(version, GetVersionStr(), jalloc);
+            AddJsonValueEx(game, "th13", jalloc);
+            AddJsonValue(mode);
+            AddJsonValue(stage);
+            if (section)
+                AddJsonValue(section);
+            if (phase)
+                AddJsonValue(phase);
+            if (dlg)
+                AddJsonValue(dlg);
 
-                ReturnJson();
+            AddJsonValue(score);
+            AddJsonValue(life);
+            AddJsonValue(extend);
+            AddJsonValue(life_fragment);
+            AddJsonValue(bomb);
+            AddJsonValue(bomb_fragment);
+            AddJsonValue(power);
+            AddJsonValue(value);
+            AddJsonValue(graze);
+            AddJsonValue(trance_meter);
+            AddJsonValue(spirit_start_left);
 
-            } else if (mode == 1) {
-                CreateJson();
-
-                AddJsonValueEx(version, GetVersionStr(), jalloc);
-                AddJsonValueEx(game, "th13", jalloc);
-                AddJsonValue(mode);
-                AddJsonValue(stage);
-                if (section)
-                    AddJsonValue(section);
-                if (phase)
-                    AddJsonValue(phase);
-                if (dlg)
-                    AddJsonValue(dlg);
-
-                AddJsonValue(score);
-                AddJsonValue(life);
-                AddJsonValue(extend);
-                AddJsonValue(life_fragment);
-                AddJsonValue(bomb);
-                AddJsonValue(bomb_fragment);
-                AddJsonValue(power);
-                AddJsonValue(value);
-                AddJsonValue(graze);
-                AddJsonValue(trance_meter);
-                AddJsonValue(spirit_start_left);
-
-                ReturnJson();
-            }
+            ReturnJson();
         }
     };
     THPracParam thPracParam {};
@@ -536,7 +519,7 @@ namespace TH13 {
     });
     EHOOK_ST(th13_all_clear_bonus_2, 0x42cf1b, 4, {
         *(int32_t*)(GetMemAddr(0x4c2190, 0x144)) = *(int32_t*)(0x4be7c0);
-        if (GetMemContent(MODEFLAGS) & 0x10) {
+        if (GetMemContent(0x4be830) & 0x10) {
             typedef void (*PScoreFunc)();
             PScoreFunc a = (PScoreFunc)0x43f720;
             a();
@@ -545,7 +528,7 @@ namespace TH13 {
     });
     EHOOK_ST(th13_all_clear_bonus_3, 0x42d004, 4, {
         *(int32_t*)(GetMemAddr(0x4c2190, 0x144)) = *(int32_t*)(0x4be7c0);
-        if (GetMemContent(MODEFLAGS) & 0x10) {
+        if (GetMemContent(0x4be830) & 0x10) {
             typedef void (*PScoreFunc)();
             PScoreFunc a = (PScoreFunc)0x43f720;
             a();
@@ -1557,7 +1540,7 @@ namespace TH13 {
             th13ElBgmTranceFlag = !th13ElBgmTranceFlag;
 
         el_switch = *(THOverlay::singleton().mElBgm) && !THGuiRep::singleton().mRepStatus && thPracParam.mode == 1 && thPracParam.section && !th13ElBgmTranceFlag;
-        is_practice = (*((int32_t*)MODEFLAGS) & 0x1);
+        is_practice = (*((int32_t*)0x4be830) & 0x1);
 
         if (th13ElBgmTranceFlag && bgm_cmd == 3) {
             th13ElBgmTranceFlag = false;
@@ -1617,36 +1600,16 @@ namespace TH13 {
             THSectionPatch();
         }
 
-
-        //transition-related desync fixes
-        uint32_t stageNum = GetMemContent(STAGE_NUM) - 1;
-        if (stageNum % 6 == 0) return; // must not be st1/7
-
-        // if marisa & not in practice (note: wont catch practice replays)
-        // -> fix desync related to damage source iteration around missiles
-        if (GetMemContent(CHARA) == 1 && (GetMemContent(MODEFLAGS) & 0b110000) == 0) {
-            uintptr_t lastSrcIdxAddr = GetMemAddr(PLAYER_PTR, 0xa9e0);
-
-            if (THGuiRep::singleton().mRepStatus) { // Playback
-                if (thPracParam.lastSrcIdx[stageNum - 1])
-                    *(uint32_t*)(lastSrcIdxAddr) = thPracParam.lastSrcIdx[stageNum - 1];
-
-            } else { // Recording
-                thPracParam.lastSrcIdx[stageNum - 1] = GetMemContent(lastSrcIdxAddr);
-            }
-        }
-
-        // if in replay & replay has st1 data
-        // -> fix potential desync w/ iframes being given to player
+        // fix potential desync w/ iframes being given to player
         // when starting replay on non-st1
-        if (THGuiRep::singleton().mRepStatus
-            && GetMemContent(REPLAY_MGR_PTR, 0xc8 + 0x28 * 1)) {
+        if (!THGuiRep::singleton().mRepStatus) return; //must be in replay
+        if ((GetMemContent(STAGE_NUM) - 1) % 6 == 0) return; //must not be st1/7
+        if (!GetMemContent(REPLAY_MGR_PTR, 0xc8 + 0x28*1)) return; // must have st1 in replay
 
-            Timer* iframes_timer = (Timer*)GetMemAddr(PLAYER_PTR, 0x14684);
-            iframes_timer->previous = 1;
-            iframes_timer->current = 0;
-            iframes_timer->current_f = 0.0f;
-        }
+        Timer* iframes_timer = (Timer*)GetMemAddr(PLAYER_PTR, 0x14684);
+        iframes_timer->previous = 1;
+        iframes_timer->current = 0;
+        iframes_timer->current_f = 0.0f;
     })
     EHOOK_DY(th13_bgm, 0x42c864, 1, {
         if (THBGMTest()) {
@@ -1656,8 +1619,8 @@ namespace TH13 {
     })
     EHOOK_DY(th13_rep_save, 0x448c05, 5, {
         char* repName = (char*)(pCtx->Esp + 0x38);
-        if (thPracParam.mode || GetMemContent(CHARA) == 1)
-            THSaveReplay(repName); //thprac mode or Marisa
+        if (thPracParam.mode == 1)
+            THSaveReplay(repName);
     })
     EHOOK_DY(th13_rep_menu_1, 0x452776, 3, {
         THGuiRep::singleton().State(1);
@@ -1685,6 +1648,23 @@ namespace TH13 {
     })
     HOOKSET_ENDDEF()
 
+    // 0x4dd0d1 appdata dir, 0x4de0d1 game dir
+    // Adjust all references to appdata to the game's directory.
+    // Achieved by changing d0's to e0's (65536 byte offset between the two).
+    HOOKSET_DEFINE(THAppdataSkip)
+    PATCH_DY(th13_move_appdata_1, 0x43ab73, "e0")
+    PATCH_DY(th13_move_appdata_2, 0x43ad52, "e0")
+    PATCH_DY(th13_move_appdata_3, 0x448899, "e0")
+    PATCH_DY(th13_move_appdata_4, 0x448c7e, "e0")
+    PATCH_DY(th13_move_appdata_5, 0x449B15, "e0")
+    PATCH_DY(th13_move_appdata_6, 0x449ff0, "e0")
+    PATCH_DY(th13_move_appdata_7, 0x452420, "e0")
+    PATCH_DY(th13_move_appdata_8, 0x4524f3, "e0")
+    PATCH_DY(th13_move_appdata_9, 0x45cda8, "e0")
+    PATCH_DY(th13_move_appdata_10, 0x45cdd9, "e0")
+    PATCH_DY(th13_move_appdata_11, 0x45d7fa, "e0")
+    HOOKSET_ENDDEF()
+
     static __declspec(noinline) void THGuiCreate()
     {
         if (ImGui::GetCurrentContext()) {
@@ -1694,6 +1674,16 @@ namespace TH13 {
         GameGuiInit(IMPL_WIN32_DX9, 0x4dc6a8, 0x4dd0a8,
             Gui::INGAGME_INPUT_GEN2, 0x4e49fc, 0x4e49f8, 0,
             -1);
+
+        // Enable appdata skip hook if applicable
+        if (Gui::GetSkipAppdata()) {
+            EnableAllHooks(THAppdataSkip);
+            // Replays do not function if the directories do not exist
+            // and the hook is applied too late for the game to do it for us
+            // so must be done manually by ourselves.
+            CreateDataFolders(reinterpret_cast<LPCSTR>(0x4de0d1));
+        }
+
 
         SetDpadHook(0x4713EF, 2);
 
@@ -1722,10 +1712,12 @@ namespace TH13 {
         THGuiCreate();
     })
     HOOKSET_ENDDEF()
+
 }
 
 void TH13Init()
 {
     EnableAllHooks(TH13::THInitHook);
+
 }
 }

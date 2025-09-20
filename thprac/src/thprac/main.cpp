@@ -191,13 +191,11 @@ int WINAPI wWinMain(
         if (!Gui::LocaleInitFromCfg()) {
             Gui::LocaleAutoSet();
         }
-        // Load menu open key chords
-        if (!Gui::MenuChordInitFromCfg()) {
-            Gui::MenuChordAutoSet();
-        }
 
         // Done after loading language as its string entries rely on it.
         Gui::MenuChordInitArrays();
+
+
 
         if (!hWininet) {
             int oh_my_god_bruh = 2;

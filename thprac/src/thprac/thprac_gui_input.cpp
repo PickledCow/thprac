@@ -335,5 +335,26 @@ namespace THPrac
 			}
 		}
 
+
+        /***          Game cfg stuff that really shouldn't be here            ***/
+
+		bool __gskip_appdata = false;
+
+		bool GameSettingsInitFromCfg() {
+            bool skip_appdata = false;
+			if (!LauncherSettingGet("skip_appdata", skip_appdata)) {
+                return false;
+			}
+			__gskip_appdata = skip_appdata;
+			return true;
+		}
+
+		void GameSettingsAutoSet() {
+			__gskip_appdata = false;
+		}
+
+		bool GetSkipAppdata() {
+            return __gskip_appdata;
+		}
 	}
 }

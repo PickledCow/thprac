@@ -76,6 +76,16 @@ namespace THPrac
 
 		std::string HotkeyChordToLabel(int chord);
         int HotkeyChordToVK(int chord);
+
+
+		// Game cfg stuff that really shouldn't be here.
+		// When/if game cfgs are implemented, these should be moved there.
+
+		bool GameSettingsInitFromCfg();
+        void GameSettingsAutoSet();
+
+        bool GetSkipAppdata();
+
 	}
 }
 

@@ -15,5 +15,6 @@ void GuiLauncherMainSwitchTab(const char* tab);
 void GuiLauncherMainTrigger(LauncherTrigger trigger);
 void GuiLauncherLocaleInit();
 void GuiLauncherHotkeyInit();
+void GuiLauncherGameSettingsInit();
 bool RunSteamGame(THGameSig& gameSig);
 }

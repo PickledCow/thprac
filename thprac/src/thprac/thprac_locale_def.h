@@ -158,8 +158,6 @@ enum th_glossary_t
     TH128_START_C,
     TH128_START_EX,
     TH128_TITLE,
-    TH12_PREVENT_REIA_DESYNC,
-    TH12_PREVENT_REIA_DESYNC_DESC,
     TH12_TITLE,
     TH12_UFO_SIDE,
     TH12_VENTRA_1,
@@ -735,6 +733,8 @@ enum th_glossary_t
     THPRAC_GAMES_SELECT_VER,
     THPRAC_GAMES_SPINOFF_OTHERS,
     THPRAC_GAMES_SPINOFF_STG,
+    THPRAC_GAMES_USE_GAME_DIR_AS_APPDATA,
+    THPRAC_GAMES_USE_GAME_DIR_AS_APPDATA_DESC,
     THPRAC_GAMES_USE_VPATCH,
     THPRAC_GAME_ADJUSTMENTS,
     THPRAC_GOTO_STEAM_PAGE,
@@ -749,7 +749,6 @@ enum th_glossary_t
     THPRAC_HOTKEY_SPECIAL_SETTINGS_TOOLTIP,
     THPRAC_HOTKEY_SUBMASK_WARNING,
     THPRAC_HOTKEY_TOOLTIP,
-    THPRAC_HOTKEY_UM_WARNING,
     THPRAC_HOTKEY_UNASSIGNED,
     THPRAC_IGNORE_GLOBAL_DATA,
     THPRAC_IGNORE_LOCAL_DATA,
@@ -901,6 +900,8 @@ enum th_glossary_t
     THPRAC_UPDATE_WITHOUT_CONFIRMATION,
     THPRAC_UPDATE_WITHOUT_CONFIRMATION_DESC,
     THPRAC_USE_BACKUP_DATA,
+    THPRAC_USE_GAME_DIR_AS_APPDATA,
+    THPRAC_USE_GAME_DIR_AS_APPDATA_DESC,
     THPRAC_USE_REL_PATH,
     THPRAC_YES,
     TH_ABOUT_HIDE_LICENCE,
@@ -1078,7 +1079,7 @@ enum th_glossary_t
     TH_WARP,
 };
 
-extern const char* th_glossary_str[3][1066];
+extern const char* th_glossary_str[3][1067];
 
 extern const th_glossary_t TH_TYPE_SELECT[13];
 
@@ -2704,10 +2705,10 @@ extern const th_glossary_t TH20_CYCLE_LIST[4];
 
 }
 
-extern const wchar_t __thprac_loc_range_zh[3303];
+extern const wchar_t __thprac_loc_range_zh[3301];
 
 extern const wchar_t __thprac_loc_range_en[35];
 
-extern const wchar_t __thprac_loc_range_ja[2789];
+extern const wchar_t __thprac_loc_range_ja[2783];
 
 }

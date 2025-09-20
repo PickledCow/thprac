@@ -1515,7 +1515,7 @@ private:
         ImGui::TextUnformatted(label);
         ImGui::SameLine();
         if (tooltip[0] != '\0') {
-            ImGui::TextUnformatted("(?)");
+            ImGui::TextDisabled("(?)");
             if (ImGui::IsItemHovered()) {
                 ImGui::BeginTooltip();
                 ImGui::TextUnformatted(tooltip);
@@ -1540,7 +1540,7 @@ private:
         // Show warning if Ctrl or Shift is used as they can interfere with other functionality or the game itself
         if (current_chord & ((1 << Gui::ChordKey_Ctrl) + (1 << Gui::ChordKey_Shift))) {
             ImGui::SameLine();
-            ImGui::TextUnformatted("(*)");
+            ImGui::TextDisabled("(*)");
             if (ImGui::IsItemHovered()) {
                 ImGui::BeginTooltip();
                 ImGui::TextUnformatted(S(THPRAC_HOTKEY_MODIFIER_WARNING));
@@ -1552,7 +1552,7 @@ private:
         // Show warning if there's overlap in bindings
         if (identical_binding) {
             ImGui::SameLine();
-            ImGui::TextUnformatted("(!)");
+            ImGui::TextDisabled("(!)");
             if (ImGui::IsItemHovered()) {
                 ImGui::BeginTooltip();
                 ImGui::TextUnformatted(S(THPRAC_HOTKEY_SUBMASK_WARNING));
@@ -1718,6 +1718,14 @@ private:
         ImGui::TextUnformatted(S(THPRAC_GAME_ADJUSTMENTS));
         ImGui::Separator();
         mResizableWindow.Gui(S(THPRAC_RESIZABLE_WINDOW));
+        mSkipAppdata.Gui(S(THPRAC_USE_GAME_DIR_AS_APPDATA));
+        ImGui::SameLine();
+        ImGui::TextDisabled("(?)");
+        if (ImGui::IsItemHovered()) {
+            ImGui::BeginTooltip();
+            ImGui::TextUnformatted(S(THPRAC_USE_GAME_DIR_AS_APPDATA_DESC));
+            ImGui::EndTooltip();
+        }
         ImGui::NewLine();
 
 
@@ -1809,6 +1817,7 @@ private:
     THCfgCheckbox mCfgCheckUpdate { "check_update", true };
 
     THCfgCheckbox mResizableWindow { "resizable_window", false };
+    THCfgCheckbox mSkipAppdata { "skip_appdata", false };
     THCfgCheckbox mReflectiveLaunch { "reflective_launch", false };
     THCfgCombo mExistingGameAction { "existing_game_launch_action", 0, 3 };
     THCfgCheckbox mDontSearchOngoingGame { "dont_search_ongoing_game", false };
@@ -1822,6 +1831,8 @@ private:
     THCfgCombo mHotkeyBackspaceMenu { "backspace_menu_chord", 1 << Gui::ChordKey_Backspace, 1 << Gui::ChordKey_COUNT };
     THCfgCombo mHotkeyF12Menu { "advanced_menu_chord", 1 << Gui::ChordKey_F12, 1 << Gui::ChordKey_COUNT };
     THCfgCombo mHotkeyScreenshot { "screenshot_chord", 1 << Gui::ChordKey_Home, 1 << Gui::ChordKey_COUNT };
+
+
 
     bool mHotkeyBackspaceMenuListening = false;
     bool mHotkeyF12MenuListening = false;

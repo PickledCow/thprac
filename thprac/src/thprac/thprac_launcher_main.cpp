@@ -55,8 +55,17 @@ void GuiLauncherHotkeyInit()
         }
         LauncherCfgClose();
     }
-
     Gui::MenuChordInitArrays();
+}
+
+void GuiLauncherGameSettingsInit()
+{
+    if (LauncherCfgInit(true)) {
+        if (!Gui::GameSettingsInitFromCfg()) {
+            Gui::GameSettingsAutoSet();
+        }
+        LauncherCfgClose();
+    }
 }
 
 
