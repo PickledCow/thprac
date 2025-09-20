@@ -65,7 +65,7 @@ enum game_gui_impl {
 
 void SetDpadHook(uintptr_t addr, size_t instr_len);
 
-void CreateDataFolders(LPCSTR folderName, int additional_folder = -1);
+void CreateDataFolders(LPCSTR folderName, int additionalFolder = -1);
 
 void GameGuiInit(game_gui_impl impl, int device, int hwnd_addr,
     Gui::ingame_input_gen_t input_gen, int reg1, int reg2, int reg3 = 0,

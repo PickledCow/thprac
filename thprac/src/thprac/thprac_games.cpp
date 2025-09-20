@@ -181,26 +181,36 @@ void SetDpadHook(uintptr_t addr, size_t instr_len) {
     iat_hook_joyGetPosEx();
 }
 
-void CreateDataFolders(LPCSTR folderName)
+// Create directories if they don't exist already
+void CreateDataFolders(LPCSTR folderName, int additionalFolder)
 {
+    int folderCount = 2;
+    std::vector<std::string> folderNames;
+    folderNames.push_back("\\replay");
+    folderNames.push_back("\\snapshot");
+    // Additional folders for some other games
+    switch (additionalFolder) {
+    case 0:
+        folderNames.push_back("\\bestshot");
+        folderCount++;
+        break;
+    case 1:
+        folderNames.push_back("\\savedata");
+        folderCount++;
+        break;
+    }
 
-    // Create directories if they don't exist already
-    std::string replayPath(folderName);
-    std::string screenshotPath(folderName);
+    for (int i = 0; i < folderCount; ++i) {
+        std::string path(folderName);
+        path += "\\replay";
 
-    replayPath += "\\replay";
-    screenshotPath += "\\snapshot";
+        // Convert to wstr because CreateDirectoryW wants that
+        int wlen = MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, NULL, 0);
+        std::wstring widePath(wlen, L'\0');
+        MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, &widePath[0], wlen);
 
-    int replayWlen = MultiByteToWideChar(CP_ACP, 0, replayPath.c_str(), -1, NULL, 0);
-    std::wstring wideReplayFolder(replayWlen, L'\0');
-    MultiByteToWideChar(CP_ACP, 0, replayPath.c_str(), -1, &wideReplayFolder[0], replayWlen);
-
-    int screenshotWlen = MultiByteToWideChar(CP_ACP, 0, screenshotPath.c_str(), -1, NULL, 0);
-    std::wstring wideScreenshotFolder(screenshotWlen, L'\0');
-    MultiByteToWideChar(CP_ACP, 0, screenshotPath.c_str(), -1, &wideScreenshotFolder[0], screenshotWlen);
-
-    CreateDirectoryW(wideReplayFolder.c_str(), NULL);
-    CreateDirectoryW(wideScreenshotFolder.c_str(), NULL);
+        CreateDirectoryW(widePath.c_str(), NULL);
+    }
 }
 
 void GameGuiInit(game_gui_impl impl, int device, int hwnd_addr,

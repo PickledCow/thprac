@@ -2412,6 +2412,25 @@ namespace TH14 {
     })
     HOOKSET_ENDDEF()
 
+    // 0x4f5a45 appdata dir, 0x4f6a45 game dir
+    // Adjust all references to appdata to the game's directory.
+    // Swap 5a's for 6a's
+    HOOKSET_DEFINE(THAppdataSkip)
+    PATCH_DY(th14_move_appdata_1, 0x445466, "6a")
+    PATCH_DY(th14_move_appdata_2, 0x44561e, "6a")
+    PATCH_DY(th14_move_appdata_3, 0x45586c, "6a")
+    PATCH_DY(th14_move_appdata_4, 0x455c6f, "6a")
+    PATCH_DY(th14_move_appdata_5, 0x456bf8, "6a")
+    PATCH_DY(th14_move_appdata_6, 0x457088, "6a")
+    PATCH_DY(th14_move_appdata_7, 0x45ee48, "6a")
+    PATCH_DY(th14_move_appdata_8, 0x45ee9d, "6a")
+    PATCH_DY(th14_move_appdata_9, 0x46a218, "6a")
+    PATCH_DY(th14_move_appdata_10, 0x46a249, "6a")
+    PATCH_DY(th14_move_appdata_11, 0x46aba0, "6a")
+    PATCH_DY(th14_move_appdata_12, 0x46baa9, "6a")
+    PATCH_DY(th14_move_appdata_13, 0x46bab8, "6a")
+    HOOKSET_ENDDEF()
+
     static __declspec(noinline) void THGuiCreate()
     {
         if (ImGui::GetCurrentContext()) {
@@ -2422,6 +2441,15 @@ namespace TH14 {
             Gui::INGAGME_INPUT_GEN2, 0x4d6884, 0x4d6880, 0,
             (*((int32_t*)0x4f7a54) >> 2) & 0xf);
 
+        // Enable appdata skip hook if applicable
+        if (Gui::GetSkipAppdata()) {
+            EnableAllHooks(THAppdataSkip);
+            // Replays do not function if the directories do not exist
+            // and the hook is applied too late for the game to do it for us
+            // so must be done manually by ourselves.
+            // Offset by 1 byte because path string start with null for some reason??
+            CreateDataFolders(reinterpret_cast<LPCSTR>(0x4f6a45));
+        }
         SetDpadHook(0x401A8E, 3);
 
         // Gui components creation
