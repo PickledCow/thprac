@@ -1648,22 +1648,6 @@ namespace TH13 {
     })
     HOOKSET_ENDDEF()
 
-    // 0x4dd0d1 appdata dir, 0x4de0d1 game dir
-    // Adjust all references to appdata to the game's directory.
-    // Achieved by changing d0's to e0's (65536 byte offset between the two).
-    HOOKSET_DEFINE(THAppdataSkip)
-    PATCH_DY(th13_move_appdata_1, 0x43ab73, "e0")
-    PATCH_DY(th13_move_appdata_2, 0x43ad52, "e0")
-    PATCH_DY(th13_move_appdata_3, 0x448899, "e0")
-    PATCH_DY(th13_move_appdata_4, 0x448c7e, "e0")
-    PATCH_DY(th13_move_appdata_5, 0x449B15, "e0")
-    PATCH_DY(th13_move_appdata_6, 0x449ff0, "e0")
-    PATCH_DY(th13_move_appdata_7, 0x452420, "e0")
-    PATCH_DY(th13_move_appdata_8, 0x4524f3, "e0")
-    PATCH_DY(th13_move_appdata_9, 0x45cda8, "e0")
-    PATCH_DY(th13_move_appdata_10, 0x45cdd9, "e0")
-    PATCH_DY(th13_move_appdata_11, 0x45d7fa, "e0")
-    HOOKSET_ENDDEF()
 
     static __declspec(noinline) void THGuiCreate()
     {
@@ -1677,13 +1661,11 @@ namespace TH13 {
 
         // Enable appdata skip hook if applicable
         if (Gui::GetSkipAppdata()) {
-            EnableAllHooks(THAppdataSkip);
-            // Replays do not function if the directories do not exist
-            // and the hook is applied too late for the game to do it for us
-            // so must be done manually by ourselves.
-            CreateDataFolders(reinterpret_cast<LPCSTR>(0x4de0d1));
+            constexpr int appdata_ptr = 0x4dd0d1;
+            constexpr int game_exe_ptr = 0x4de0d1;
+            SwapAppdataPath(appdata_ptr, game_exe_ptr);
+            CreateDataFolders(reinterpret_cast<LPCSTR>(game_exe_ptr));
         }
-
 
         SetDpadHook(0x4713EF, 2);
 

@@ -65,6 +65,7 @@ enum game_gui_impl {
 
 void SetDpadHook(uintptr_t addr, size_t instr_len);
 
+void SwapAppdataPath(uintptr_t appdata_ptr, uintptr_t game_exe_ptr, uint32_t buffer_size = 0x1000);
 void CreateDataFolders(LPCSTR folderName, int additionalFolder = -1);
 
 void GameGuiInit(game_gui_impl impl, int device, int hwnd_addr,

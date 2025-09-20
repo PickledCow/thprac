@@ -181,7 +181,22 @@ void SetDpadHook(uintptr_t addr, size_t instr_len) {
     iat_hook_joyGetPosEx();
 }
 
-// Create directories if they don't exist already
+void SwapAppdataPath(uintptr_t appdata_ptr, uintptr_t game_exe_ptr, uint32_t buffer_size) {
+    int i;
+    for (i = 0; i < buffer_size; ++i) {
+        if (*(char*)(game_exe_ptr + i) == '\0') {
+            break;
+        }
+    }
+    memcpy((char*)appdata_ptr, (char*)game_exe_ptr, i);
+    *(char*)(appdata_ptr + i) = '\\';
+    *(char*)(appdata_ptr + i + 1) = '\0';
+}
+
+// Create directories if they don't exist already.
+// Replays do not function if the directories do not exist
+// and the hook is applied too late for the game to do it for us
+// so must be done manually by ourselves.
 void CreateDataFolders(LPCSTR folderName, int additionalFolder)
 {
     int folderCount = 2;
@@ -190,19 +205,24 @@ void CreateDataFolders(LPCSTR folderName, int additionalFolder)
     folderNames.push_back("\\snapshot");
     // Additional folders for some other games
     switch (additionalFolder) {
-    case 0:
+    case 0: // DS
         folderNames.push_back("\\bestshot");
         folderCount++;
         break;
-    case 1:
+    case 1: // LoLK
+        folderNames.push_back("\\autosave");
+        folderCount++;
+        break;
+    case 2: // VD
         folderNames.push_back("\\savedata");
         folderCount++;
         break;
+
     }
 
     for (int i = 0; i < folderCount; ++i) {
         std::string path(folderName);
-        path += "\\replay";
+        path += folderNames[i];
 
         // Convert to wstr because CreateDirectoryW wants that
         int wlen = MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, NULL, 0);

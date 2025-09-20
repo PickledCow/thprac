@@ -1873,6 +1873,15 @@ namespace TH15 {
             Gui::INGAGME_INPUT_GEN2, 0x4e6d1c, 0x4e6d18, 0,
             (*((int32_t*)0x51bbec) >> 2) & 0xf);
 
+        // Enable appdata skip hook if applicable
+        if (Gui::GetSkipAppdata()) {
+            constexpr int appdata_ptr = 0x519bdd;
+            constexpr int game_exe_ptr = 0x51abdd;
+            SwapAppdataPath(appdata_ptr, game_exe_ptr);
+            // Flag 1 for creating LoLK's autosave folder
+            CreateDataFolders(reinterpret_cast<LPCSTR>(game_exe_ptr), 1);
+        }
+
         SetDpadHook(0x401D22, 3);
 
         // Gui components creation
