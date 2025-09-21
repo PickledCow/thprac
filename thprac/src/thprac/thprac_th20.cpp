@@ -2421,6 +2421,14 @@ namespace TH20 {
             Gui::INGAGME_INPUT_GEN2, RVA(0x1B88C0), RVA(0x1B88B8), 0,
             -2, *(float*)RVA(0x1B8818), 0.0f);
 
+        // Enable appdata skip hook if applicable
+        if (Gui::GetSkipAppdata()) {
+            int appdata_ptr = RVA(0x1b67e1);
+            int game_exe_ptr = RVA(0x1b77e1);
+            SwapAppdataPath(appdata_ptr, game_exe_ptr);
+            CreateDataFolders(reinterpret_cast<LPCSTR>(appdata_ptr));
+        }
+
         SetDpadHook(0x22651, 6);
 
         // Gui components creation

@@ -189,8 +189,12 @@ void SwapAppdataPath(uintptr_t appdata_ptr, uintptr_t game_exe_ptr, uint32_t buf
         }
     }
     memcpy((char*)appdata_ptr, (char*)game_exe_ptr, i);
-    *(char*)(appdata_ptr + i) = '\\';
-    *(char*)(appdata_ptr + i + 1) = '\0';
+    // Add a trailing backslash to the path string because some games are too much of a crybaby without it (cough cough LoLK PD)
+    *(char*)(appdata_ptr + i++) = '\\';
+    // Re-terminate and pad out buffer 
+    for (; i < buffer_size; ++i) {
+        *(char*)(appdata_ptr + i) = '\0'; 
+    }
 }
 
 // Create directories if they don't exist already.

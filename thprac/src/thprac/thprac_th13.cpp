@@ -1664,7 +1664,7 @@ namespace TH13 {
             constexpr int appdata_ptr = 0x4dd0d1;
             constexpr int game_exe_ptr = 0x4de0d1;
             SwapAppdataPath(appdata_ptr, game_exe_ptr);
-            CreateDataFolders(reinterpret_cast<LPCSTR>(game_exe_ptr));
+            CreateDataFolders(reinterpret_cast<LPCSTR>(appdata_ptr));
         }
 
         SetDpadHook(0x4713EF, 2);

@@ -1879,7 +1879,7 @@ namespace TH15 {
             constexpr int game_exe_ptr = 0x51abdd;
             SwapAppdataPath(appdata_ptr, game_exe_ptr);
             // Flag 1 for creating LoLK's autosave folder
-            CreateDataFolders(reinterpret_cast<LPCSTR>(game_exe_ptr), 1);
+            CreateDataFolders(reinterpret_cast<LPCSTR>(appdata_ptr), 1);
         }
 
         SetDpadHook(0x401D22, 3);

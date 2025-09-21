@@ -844,6 +844,16 @@ namespace V1_10c {
             Gui::INGAGME_INPUT_GEN2, GetMemContent(RVA(0x1D19B0)) + 0x30 + 0x2B0, GetMemContent(RVA(0x1D19B0)) + 0x30 + 0x10, 0,
             -2, SCALE, 0.0f);
 
+        // Enable appdata skip hook if applicable
+        if (Gui::GetSkipAppdata()) {
+            int appdata_ptr = RVA(0x22ce79);
+            int game_exe_ptr = RVA(0x22de79);
+            SwapAppdataPath(appdata_ptr, game_exe_ptr);
+            // Lol this game doesn't even have replays but it makes the folder anyways
+            CreateDataFolders(reinterpret_cast<LPCSTR>(appdata_ptr));
+        }
+
+
         SetDpadHook(0xB84A0, 3);
 
         //// Gui components creation

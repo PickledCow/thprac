@@ -208,7 +208,7 @@
       ],
       "THPRAC_RESIZABLE_WINDOW": [ "窗口大小可调", "Resizable window", "ウィンドウサイズ自由に変更" ],
       "THPRAC_USE_GAME_DIR_AS_APPDATA": [ "Store saves with game files (TL Needed)", "Store saves with game files", "Store saves with game files (TL Needed)" ],
-      "THPRAC_USE_GAME_DIR_AS_APPDATA_DESC": [ "Stores replays and saves next to the game files instead of in %APPDATA%. (TL Needed)", "Stores replays and saves next to the game files instead of in %APPDATA%.", "Stores replays and saves next to the game files instead of in %APPDATA%. (TL Needed)" ],
+      "THPRAC_USE_GAME_DIR_AS_APPDATA_DESC": [ "Stores replays and saves next to the game files instead of in %APPDATA%. (Note: This will break Steam Cloud Sync!) (TL Needed)", "Stores replays and saves next to the game files instead of in %APPDATA%. (Note: This will break Steam Cloud Sync!)", "Stores replays and saves next to the game files instead of in %APPDATA%. (Note: This will break Steam Cloud Sync!) (TL Needed)" ],
 
       "THPRAC_GAME_ADJUSTMENTS": [ "thprac - 游戏调整", "thprac - Game adjustments", "thprac - ゲームの調整" ],
       "THPRAC_CHECK_UPDATE_WHEN": [ "检查更新的时机:", "Check update when:", "更新を確認するタイミング:" ],

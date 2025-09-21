@@ -2428,7 +2428,7 @@ namespace TH14 {
             constexpr int game_exe_ptr = 0x4f6a44;
             SwapAppdataPath(appdata_ptr, game_exe_ptr);
             // Offset by 1 byte because path string starts with a null for some reason??
-            CreateDataFolders(reinterpret_cast<LPCSTR>(game_exe_ptr+1));
+            CreateDataFolders(reinterpret_cast<LPCSTR>(appdata_ptr + 1));
         }
 
         SetDpadHook(0x401A8E, 3);
