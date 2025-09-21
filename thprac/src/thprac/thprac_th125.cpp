@@ -269,6 +269,15 @@ namespace TH125 {
             Gui::INGAGME_INPUT_GEN2, 0x4d8dac, 0x4d8da8, 0,
             -1);
 
+        // Enable appdata skip hook if applicable
+        if (Gui::GetSkipAppdata()) {
+            constexpr int appdata_ptr = 0x4d1801;
+            constexpr int game_exe_ptr = 0x4d2801;
+            SwapAppdataPath(appdata_ptr, game_exe_ptr);
+            // Make bestshot folder as well
+            CreateDataFolders(reinterpret_cast<LPCSTR>(appdata_ptr), 0);
+        }
+
         SetDpadHook(0x46205F, 2);
 
         // Gui components creation

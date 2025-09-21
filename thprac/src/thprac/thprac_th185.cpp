@@ -3271,6 +3271,14 @@ namespace TH185 {
             Gui::INGAGME_INPUT_GEN2, 0x4ce400, 0x4ce3f8, 0,
             -2, *(float*)0x573dc0, 0.0f);
 
+        // Enable appdata skip hook if applicable
+        if (Gui::GetSkipAppdata()) {
+            constexpr int appdata_ptr = 0x571d81;
+            constexpr int game_exe_ptr = 0x572d81;
+            SwapAppdataPath(appdata_ptr, game_exe_ptr);
+            CreateDataFolders(reinterpret_cast<LPCSTR>(appdata_ptr));
+        }
+
         SetDpadHook(0x40175F, 3);
 
         // Gui components creation

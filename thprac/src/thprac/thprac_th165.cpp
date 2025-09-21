@@ -232,6 +232,15 @@ namespace TH165 {
         GameGuiInit(IMPL_WIN32_DX9, 0x4b3b18, 0x507b70,
             Gui::INGAGME_INPUT_GEN2, 0x4b0ffc, 0x4b0ff8, 0,
             (*((int32_t*)0x509bac) >> 2) & 0xf);
+        
+        // Enable appdata skip hook if applicable
+        if (Gui::GetSkipAppdata()) {
+            constexpr int appdata_ptr = 0x507b9d;
+            constexpr int game_exe_ptr = 0x508b9d;
+            SwapAppdataPath(appdata_ptr, game_exe_ptr);
+            // Make savedata folder for best shot photos
+            CreateDataFolders(reinterpret_cast<LPCSTR>(appdata_ptr), 2);
+        }
 
         SetDpadHook(0x40188B, 3);
 
